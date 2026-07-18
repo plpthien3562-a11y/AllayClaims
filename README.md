@@ -26,6 +26,7 @@ Designed for servers that want core grief protection without the overhead of a f
 - **Claim Block Economy** — Each player starts with a pool of claim blocks. Larger claims cost more blocks. Buy and sell blocks with `/buyclaimblocks` and `/sellclaimblocks` (requires Vault).
 - **Explosion Toggle** — Claim owners can enable or disable explosions within their claim using `/claimexplosion`.
 - **Piston & Redstone Freedom** — Pistons and redstone work freely in unclaimed areas by default. Inside claims, pistons cannot push blocks across claim boundaries.
+- **Admin Tools** — Server operators can manage claims with `/bbclaim`: delete a player's claims, give or take claim blocks, and toggle admin bypass.
 - **Entry Notifications** — A title appears when you enter a claim, showing whose claim it is.
 - **100% Translatable Messages** — Every message lives in `messages.yml` and supports color codes and placeholders.
 - **PlaceholderAPI Support** — Exposes the `%allayclaims_claim_block%` placeholder for remaining claim blocks.
@@ -63,18 +64,29 @@ Designed for servers that want core grief protection without the overhead of a f
 
 ## Commands
 
-| Command | Description | Permission |
-|---|---|---|
-| `/trust <player>` | Grant a player access to the claim you're standing in. | `allayclaims.player` |
-| `/untrust <player>` | Revoke a player's access to the claim you're standing in. | `allayclaims.player` |
-| `/unclaim` | Delete the claim you're standing in. Blocks are returned to you. | `allayclaims.player` |
-| `/unallclaim` | Delete all of your claims at once. | `allayclaims.player` |
-| `/claimexplosion` | Toggle explosions on or off in the claim you're standing in. | `allayclaims.player` |
-| `/buyclaimblocks <amount>` | Purchase claim blocks with server currency. Requires Vault. | `allayclaims.player` |
-| `/sellclaimblocks <amount>` | Sell claim blocks for server currency. Requires Vault. | `allayclaims.player` |
-| `/allayclaims` | Show plugin info, version, and credits. | `allayclaims.player` |
+### Player Commands
 
-The `allayclaims.player` permission is granted to everyone by default.
+| Command | Description |
+|---|---|
+| `/trust <player>` | Grant a player access to the claim you're standing in. |
+| `/untrust <player>` | Revoke a player's access to the claim you're standing in. |
+| `/unclaim` | Delete the claim you're standing in. Blocks are returned to you. |
+| `/unallclaim` | Delete all of your claims at once. |
+| `/claimexplosion` | Toggle explosions on or off in the claim you're standing in. |
+| `/buyclaimblocks <amount>` | Purchase claim blocks with server currency. Requires Vault. |
+| `/sellclaimblocks <amount>` | Sell claim blocks for server currency. Requires Vault. |
+| `/allayclaims` | Show plugin info, version, and credits. |
+
+### Admin Commands
+
+| Command | Description |
+|---|---|
+| `/bbclaim delete <player>` | Delete all of a player's claims. |
+| `/bbclaim give <player> <blocks>` | Give a player claim blocks. |
+| `/bbclaim take <player> <blocks>` | Take claim blocks from a player. |
+| `/bbclaim ignore` | Info on admin bypass (operators bypass all claim protection). |
+
+Admin commands require **operator status** (`/op`). No separate permission node is needed — if you're an op, you can use them. Operators also bypass all claim protection automatically, meaning they can build and break anywhere regardless of claims.
 
 ## Configuration
 
@@ -131,16 +143,17 @@ Requires [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245
 - **Economy integration.** Optional Vault support lets players trade money for claim space.
 - **Redstone and piston friendly.** Unclaimed areas keep full redstone and piston functionality. Claims only restrict cross-boundary piston movement.
 - **Per-world granularity.** Claiming can be enabled or disabled per world.
+- **Simple admin model.** Operator-only admin commands mean no permission node setup. Op your trusted staff and they're ready to manage claims.
 
 ## Weaknesses
 
 - **No subclaims.** All claims are top-level rectangles. There's no hierarchy for subdividing a claim into zones with different trust levels.
 - **No claim resizing.** To change a claim's size, you must delete it (`/unclaim`) and recreate it. There is no corner-drag resize.
-- **No admin tools.** There are no admin commands for deleting, giving, or taking claim blocks from other players. Management is player-driven only.
 - **2D claims only.** Claims cover a full-height column from bedrock to sky. You cannot limit vertical extent.
 - **YAML storage.** Data is stored in a flat YAML file. Very large servers with thousands of claims may see slower I/O compared to a database-backed plugin.
 - **No automatic block accrual.** The `blocks-per-hour` setting is reserved for future use. Players currently start with a fixed pool and must buy more if needed.
 - **Single trust tier.** `/trust` grants full build access. There's no permission granularity (e.g., container-only, door-only).
+- **Op-only admin.** Admin access is tied to operator status. Servers that use fine-grained permission systems (LuckPerms, etc.) cannot grant admin claim tools to non-op staff.
 
 ## License
 
