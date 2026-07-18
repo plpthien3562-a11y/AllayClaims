@@ -1,0 +1,37 @@
+name: AllayClaims
+version: 1.0.0
+main: com.allayclaims.AllayClaims
+description: A land claiming plugin for Spigot servers
+authors:
+  - AllayClaims Team
+commands:
+  claim:
+    description: Create a claim
+    usage: /claim
+  unclaim:
+    description: Unclaim land
+    usage: /unclaim
+  admin:
+    description: Admin commands
+    usage: /admin
+  trust:
+    description: Trust a player
+    usage: /trust <player>
+  untrust:
+    description: Remove trust from a player
+    usage: /untrust <player>
+  buyclaimblocks:
+    description: Buy claim blocks
+    usage: /buyclaimblocks <amount>
+  sellclaimblocks:
+    description: Sell claim blocks
+    usage: /sellclaimblocks <amount>
+  info:
+    description: Get claim info
+    usage: /info
+  uc:
+    description: Unclaim all
+    usage: /uc
+  unallclaim:
+    description: Remove all claims
+    usage: /unallclaim
